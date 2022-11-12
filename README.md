@@ -27,4 +27,5 @@ This framework can
 ###Client tester
 - Disable "Player", "ClientManager", "moveController". And enable "ClientTester".
 - Default test players are 100.
+
 ![image](https://user-images.githubusercontent.com/56529285/201485590-179591ec-0644-4288-88ef-11866233b7b6.png)
