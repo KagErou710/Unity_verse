@@ -1,6 +1,6 @@
 # Unity_verse
 
-##Features
+## Features
 This is a framework for 3D game.
 
 This framework can
@@ -8,23 +8,23 @@ This framework can
  - Build some buildings on bases
 
 
-##Built with
+## Built with
 - Unity C#(Client)
   -2020.3.22f1 .NET Framework 4.7.1
 - Golang (Server)
   -1.19.2
   
   
-##Getting start
-###Client
+## Getting start
+### Client
 - Open Unity from Client folder
 - Just run the project
 
-###Server
+### Server
 - change PATH to .../Unity_verse/Server
 - run ```go run server.go```
 
-###Client tester
+### Client tester
 - Disable "Player", "ClientManager", "moveController". And enable "ClientTester".
 - Default test players are 100.
 
