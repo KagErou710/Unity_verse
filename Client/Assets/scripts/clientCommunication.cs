@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 using System.Threading;
 using System;
 
@@ -33,6 +33,7 @@ public class clientCommunication : MonoBehaviour
         
 
     public GameObject controller;
+    public GameObject npcController;
 
     public List<string> toDoList = new List<string>();
     public Dictionary<string, GameObject> playerList= new Dictionary<string, GameObject>();
@@ -82,7 +83,7 @@ public class clientCommunication : MonoBehaviour
             {
                 Debug.Log(toDoList[i]);
             }
-            foreach (string serverMessage in toDoList)
+            foreach (string serverMessage in toDoList.ToList())
             {
                 string[] tempRecvTexts = serverMessage.Split(';');
                 foreach (string tempRecvText in tempRecvTexts)
@@ -91,6 +92,7 @@ public class clientCommunication : MonoBehaviour
                     {
                         continue;
                     }
+                    Debug.Log("doing : " + tempRecvText);
                     string[] recvTexts = tempRecvText.Split(',');
                     switch (int.Parse(recvTexts[0]))
                     {
@@ -175,6 +177,14 @@ public class clientCommunication : MonoBehaviour
                                 }
                             }
                             break;
+                        case 7:
+                            Debug.Log(recvTexts[1]);
+                            npcController.GetComponent<npcMove>().tempQueue.Enqueue(recvTexts[1]);
+                            break;
+                        case 8:
+                            string npcID = recvTexts[1].Split(':')[0];
+                            npcController.GetComponent<npcMove>().npcIoQueue.Add(npcID);
+                            break;
                     }
                 }
             }
@@ -218,7 +228,7 @@ public class clientCommunication : MonoBehaviour
                         Array.Copy(bytes, 0, incommingData, 0, length);					
                         string serverMessage = Encoding.ASCII.GetString(incommingData);
                         toDoList.Add(serverMessage);
-                        Debug.Log("receivede : " + serverMessage);
+                        //Debug.Log("receivede : " + serverMessage);
                     }
                 }
             }

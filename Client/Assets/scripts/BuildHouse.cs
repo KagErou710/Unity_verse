@@ -56,7 +56,7 @@ public class BuildHouse : MonoBehaviour
         GameObject tempBuild = Instantiate(obj, spawnPos, Quaternion.identity);
         Debug.Log(Base.GetComponent<Base>().baseID);
         tempBuild.transform.SetParent(Base.transform);
-        GameObject.Find("UdpEchoClient").GetComponent<clientCommunication>().Build(objName, Base.GetComponent<Base>().baseID);
+        GameObject.Find("clientCommunicator").GetComponent<clientCommunication>().Build(objName, Base.GetComponent<Base>().baseID);
 
 
         BuildMenu.SetActive(false);
@@ -91,7 +91,7 @@ public class BuildHouse : MonoBehaviour
                     Debug.Log("No color");
                     return;
                 }
-                GameObject.Find("UdpEchoClient").GetComponent<clientCommunication>().updateBuilding(BuildingID, tempColor);
+                GameObject.Find("clientCommunicator").GetComponent<clientCommunication>().updateBuilding(BuildingID, tempColor);
 
             }
         }

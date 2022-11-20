@@ -112,6 +112,4 @@ MonoBehaviour:
   BuildMenu: {fileID: 0}
   PControlEvent: {fileID: 0}
   MenuEvent: {fileID: 0}
-  PlayingUI: {fileID: 0}
   FromBasePlayerID: 
-  baseID: 

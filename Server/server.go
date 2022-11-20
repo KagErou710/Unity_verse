@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net"
-
 	"strconv"
 	"strings"
 	"sync"
@@ -13,6 +12,7 @@ import (
 var wg sync.WaitGroup
 var UdpClientsList = make(map[string]*udpClientInfo)
 var TcpClientsList = make(map[net.TCPConn]tcpClientInfo)
+var data string
 
 func sendUdpResponse(conn *net.UDPConn, addr *net.UDPAddr, message []byte) {
 
@@ -146,6 +146,7 @@ func tcpCommunicator(conn *net.TCPConn, myID string) {
 			}
 		case "3":
 			tcpPackplayerInfo(conn)
+			conn.Write([]byte(data))
 			TcpClientsList[*conn] = tcpClientInfo{recvTcpTexts[1], []string{}, true}
 			sendAllTcpSubscriber(message, recvTcpTexts[1])
 			myID = recvTcpTexts[1]
@@ -161,6 +162,28 @@ func tcpCommunicator(conn *net.TCPConn, myID string) {
 				sendAllTcpSubscriber(message, recvTcpTexts[1])
 			}
 		}
+	}
+}
+
+func npcController() {
+	timer := 0
+	for _ = range time.Tick(time.Second * 2) {
+		timer += 2
+		switch timer {
+		case 30:
+			mes := "7,7:0/455/1/483:0/436/0.6/483:1/5:0/436/0.6/502:1/5:0/455/1/483:;"
+			sendAllTcpClient(mes)
+			timer = 0
+		case 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28:
+			mes := "7,8:1/0:0:5:;"
+			sendAllTcpClient(mes)
+		}
+	}
+}
+
+func sendAllTcpClient(message string) {
+	for k := range TcpClientsList {
+		k.Write([]byte(message))
 	}
 }
 
@@ -207,6 +230,10 @@ func main() {
 
 	go func() {
 		youStillAlive()
+	}()
+
+	go func() {
+		npcController()
 	}()
 
 	for {
